@@ -15,15 +15,18 @@ xmlns:android="http://schemas.android.com/apk/res/android"
     </js-module>
 
     <engines>
-        <engine name="cordova" version=">=10.0.0"/>
-        <engine name="cordova-android" version=">=9.0.0"/>
-        <engine name="cordova-ios" version=">=6.0.0"/>
+        <engine name="cordova" version=">=7.1.0"/>
+        <engine name="cordova-android" version=">=8.1.0"/>
+        <engine name="cordova-ios" version=">=5.1.1"/>
     </engines>
 
-    <dependency id="cordova-plugin-firebase-analytics" version="~6.0.0"/>
+	<dependency id="cordova-plugin-firebase-analytics" url="https://github.com/OutSystems/cordova-plugin-firebase-analytics.git#outsystems"/>
+	
+    <hook type="before_plugin_install" src="hooks/configurations/installDependencies.js" />
+    <hook type="before_plugin_install" src="hooks/configurations/unzipAndCopyConfigurations.js" />
 
     <platform name="ios">
-        <preference name="IOS_FIREBASE_CONFIG_VERSION" default="~> 8.2.0"/>
+        <preference name="IOS_FIREBASE_CONFIG_VERSION" default="~> 7.0.0"/>
 
         <config-file target="config.xml" parent="/*">
             <feature name="FirebaseConfig">
@@ -34,18 +37,11 @@ xmlns:android="http://schemas.android.com/apk/res/android"
         <header-file src="src/ios/FirebaseConfigPlugin.h" />
         <source-file src="src/ios/FirebaseConfigPlugin.m" />
 
-        <podspec>
-            <config>
-                <source url="https://cdn.cocoapods.org/"/>
-            </config>
-            <pods>
-                <pod name="Firebase/RemoteConfig" spec="$IOS_FIREBASE_CONFIG_VERSION" />
-            </pods>
-        </podspec>
+		<framework src="Firebase/RemoteConfig" type="podspec" spec="$IOS_FIREBASE_CONFIG_VERSION"/>
     </platform>
 
     <platform name="android">
-        <preference name="ANDROID_FIREBASE_CONFIG_VERSION" default="21.0.+"/>
+        <preference name="ANDROID_FIREBASE_CONFIG_VERSION" default="20.0.+"/>
 
         <config-file target="res/xml/config.xml" parent="/*">
             <feature name="FirebaseConfig">
